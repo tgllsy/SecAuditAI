@@ -1,0 +1,69 @@
+# 二进制文件
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+.trae/
+# 测试二进制文件
+*.test
+
+# 输出目录
+out/
+reports/
+codeql-dbs/
+
+# Go 模块缓存
+# 注意：go.sum 文件应该被提交，它确保依赖的完整性
+go.sum
+
+# 依赖包
+vendor/
+
+# IDE 配置文件
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 操作系统生成的文件
+.DS_Store
+Thumbs.db
+
+# 日志文件
+*.log
+
+# 临时文件
+*.tmp
+*.temp
+
+# 配置文件（包含敏感信息）
+# 注意：config.yaml 应该被提交，但敏感信息应该使用环境变量
+# 这里忽略包含敏感信息的配置文件副本
+config.local.yaml
+config.dev.yaml
+config.prod.yaml
+
+# 编译产物
+*.o
+*.a
+
+# 覆盖率工具输出
+coverage.txt
+profile.out
+
+# 构建缓存
+.cache/
+
+# CodeQL 数据库（由工具自动生成）
+*.db/
+
+# 反编译输出目录
+out/decompiled/
+
+# 报告输出目录
+out/reports/
+
+# CodeQL 数据库目录
+out/codeql-dbs/

@@ -1,0 +1,86 @@
+# 工具配置
+tool:
+  name: "SecAuditAI"
+  version: "1.0.4"
+
+# CodeQL配置
+codeql:
+  cli_path: "codeql"  # CodeQL CLI路径
+  database_dir: "./out/codeql-dbs"  # 数据库存储目录
+  repo_path: "D:/Service/codeql/codeql-repo" # CodeQL 规则库根目录
+  threads: "0" # 使用的线程数，0表示使用所有可用核心
+  ram: "24000" # 使用的内存大小(MB)，留空表示自动管理
+  
+  # Maven路径配置，用于构建Java项目
+  maven_paths:
+    - "D:/Service/scoop/apps/maven/current/bin" # 常见的Maven安装路径
+  # Gradle路径配置，用于构建Java项目
+  gradle_paths:
+    - "D:/Service/gradle-8.8/bin" # 常见的Gradle安装路径
+  
+
+  languages:
+      # security-extended 是漏洞规则集,  code-quality 是代码质量规则集  程序员可手动添加扩展集
+    java:
+      ruleset: "java/ql/src/codeql-suites/java-security-extended.qls"
+      additional_rulesets:
+        # - "java/ql/src/codeql-suites/java-code-quality.qls"
+    python:
+      ruleset: "python/ql/src/codeql-suites/python-security-extended.qls"
+      additional_rulesets:
+        # - "python/ql/src/codeql-suites/python-code-quality.qls"
+    go:
+      ruleset: "go/ql/src/codeql-suites/go-security-extended.qls"
+      additional_rulesets:
+        # - "go/ql/src/codeql-suites/go-code-quality.qls"
+    javascript:
+      ruleset: "javascript/ql/src/codeql-suites/javascript-security-extended.qls"
+      additional_rulesets:
+        # - "javascript/ql/src/codeql-suites/javascript-code-quality.qls"
+    cpp:
+      ruleset: "cpp/ql/src/codeql-suites/cpp-security-extended.qls"
+      additional_rulesets:
+        # - "cpp/ql/src/codeql-suites/cpp-code-quality.qls" 
+    csharp:
+      ruleset: "csharp/ql/src/codeql-suites/csharp-security-extended.qls"
+      additional_rulesets:
+        # - "csharp/ql/src/codeql-suites/csharp-code-quality.qls"
+    ruby:
+      ruleset: "ruby/ql/src/codeql-suites/ruby-security-extended.qls"
+      additional_rulesets:
+        # - "ruby/ql/src/codeql-suites/ruby-code-quality.qls"
+
+# JDK配置
+jdk:
+  versions:
+    jdk8: "C:/Program Files/Java/jdk1.8.0_202/bin/"
+    jdk11: "D:/Service/jdk-11.0.28/bin/"
+    jdk17: "D:/Service/jdk-17.0.12/bin/"
+    jdk21: "D:/Service/jdk-21.0.9/bin/"
+  default: "jdk8"  # 默认JDK版本
+
+# 反编译配置
+decompiler:
+  jadx_path: "D:/Service/jadx/bin" # Jadx可执行文件路径
+
+# AI配置
+ai:
+  temperature: 0.7  # 生成温度
+  max_tokens: 5000  # 最大令牌数
+  # 多模型配置（新格式，支持轮询）
+  models:
+    - provider: "https://api.siliconflow.cn/v1"  # AI提供商 API 地址
+      api_key: ""  # API密钥
+      model: "deepseek-ai/DeepSeek-V3.2"  # 模型名称
+
+    - provider: "https://api.siliconflow.cn/v1"  # AI提供商 API 地址
+      api_key: ""  # API密钥
+      model: "deepseek-ai/DeepSeek-V3.2"  # 另一个模型名称
+  
+
+
+# 报告配置
+report:
+  output_dir: "./out/reports"  # 报告输出目录
+  formats: ["json", "html"]  # 支持的报告格式
+  include_payload: true  # 是否包含Payload
