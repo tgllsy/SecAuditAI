@@ -2,9 +2,11 @@
 
 SecAuditAI 是一个集成了 **CodeQL** 静态分析和 **LLM (大语言模型)** 智能验证的自动化代码审计工具。它旨在帮助安全研究人员和开发人员高效地发现和验证代码中的安全漏洞，显著降低误报率。
 
-## 作者说
-1. 此项目为ai开发，由于前面有个codeqlPy 项目由于codeql更新好像不支持了，所以重新用go实现了一个版本，新增了ai二次验证功能。
-2. 反编译功能暂时不建议使用，因为反编译会把所有依赖的库文件都反编译出来，导致生成codeql数据库时占用大量空间，大量耗尽token，所有建议先使用gradle和maven编译的结果。
+## 项目定位
+
+SecAuditAI 是一个独立的 Go 开源工具，面向需要把 CodeQL 扫描结果交给 LLM 做二次分析的开发者和安全研究人员。项目由 `tgllsy` 维护，欢迎通过 Issue 和 Pull Request 反馈问题、补充规则或改进文档。
+
+> 反编译功能会先处理归档中的依赖库，可能占用较多磁盘空间和模型 Token。对 Java 项目，优先使用 Maven/Gradle 构建后的源码进行分析。
 
 ## 🚀 功能特点
 
@@ -22,7 +24,7 @@ SecAuditAI 是一个集成了 **CodeQL** 静态分析和 **LLM (大语言模型)
 
 ### 1. 基础环境
 - **Operating System**: Windows, Linux, or macOS
-- **Go**: Version 1.20 或更高版本
+- **Go**: Version 1.24 或更高版本
 
 ### 2. 依赖工具
 - **CodeQL CLI**: 必须安装并配置到系统环境变量 `PATH` 中。
@@ -37,7 +39,7 @@ SecAuditAI 是一个集成了 **CodeQL** 静态分析和 **LLM (大语言模型)
 
 ### 1. 克隆项目
 ```bash
-git clone https://github.com/aideepcode/SecAuditAI.git
+git clone https://github.com/tgllsy/SecAuditAI.git
 cd SecAuditAI
 ```
 
@@ -48,7 +50,7 @@ go mod tidy
 
 ### 3. 编译项目
 ```bash
-go build -o SecAuditAI.exe -ldflags="-s -w" -trimpath main.go 
+go build -o SecAuditAI.exe -ldflags="-s -w" -trimpath .
 ```
 
 ## ⚙️ 配置文件
@@ -61,7 +63,7 @@ go build -o SecAuditAI.exe -ldflags="-s -w" -trimpath main.go
 # 工具配置
 tool:
   name: "Automated Code Audit Tool"
-  version: "1.0.1"
+  version: "1.0.4"
 
 # CodeQL配置
 codeql:
@@ -115,7 +117,7 @@ report:
 ### 基本用法
 
 ```bash
-./audit-tool.exe audit --target <源代码目录> --language <语言>
+./SecAuditAI.exe audit --target <源代码目录> --language <语言>
 ```
 
 ### 常用参数
@@ -133,22 +135,22 @@ report:
 
 1. **审计 Java 项目**：
    ```bash
-   ./audit-tool.exe audit -t "C:\Users\username\Downloads\Hello-Java-Sec-master" -l java
+   ./SecAuditAI.exe audit -t "C:\Users\username\Downloads\Hello-Java-Sec-master" -l java
    ```
 
 2. **指定输出目录**：
    ```bash
-   ./audit-tool.exe audit -t "C:\projects\app" -l python -o "C:\reports\my-app"
+   ./SecAuditAI.exe audit -t "C:\projects\app" -l python -o "C:\reports\my-app"
    ```
 
 3. **使用自定义配置文件**：
    ```bash
-   ./audit-tool.exe audit -t "C:\projects\app" -l go -c "D:\configs\custom-config.yaml"
+   ./SecAuditAI.exe audit -t "C:\projects\app" -l go -c "D:\configs\custom-config.yaml"
    ```
 
 4. **调整并发数**：
    ```bash
-   ./audit-tool.exe audit -t "C:\projects\app" -l javascript -n 10
+   ./SecAuditAI.exe audit -t "C:\projects\app" -l javascript -n 10
    ```
 
 ### 工作流程
@@ -219,7 +221,7 @@ SecAuditAI/
 ### 归档分析示例
 
 ```powershell
-.\audit-tool.exe audit -t "C:\Users\username\Downloads\app.apk" -l java
+.\SecAuditAI.exe audit -t "C:\Users\username\Downloads\app.apk" -l java
 ```
 
 ### 配置片段示例（新增/变更）
@@ -257,6 +259,10 @@ decompiler:
 
 ## 📋 版本更新日志
 
+### 当前版本
+
+当前代码版本为 `1.0.4`。提交功能变更前，请先运行仓库中的测试和静态检查。
+
 ### v1.0.1 (2025-12-12)
 - ✨ 新增多模型轮询支持，提高系统可用性
 - ✨ 优化配置文件结构，支持更灵活的配置
@@ -279,6 +285,13 @@ decompiler:
 2. **注释**: 提交的代码请包含清晰的中文注释。
 3. **测试**: 修改核心逻辑后，请确保通过本地测试。
 4. **文档**: 如有功能变更，请同步更新 README.md。
+
+### 本地检查
+
+```bash
+go test ./...
+go vet ./...
+```
 
 ## 📝 许可证
 

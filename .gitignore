@@ -15,8 +15,7 @@ reports/
 codeql-dbs/
 
 # Go 模块缓存
-# 注意：go.sum 文件应该被提交，它确保依赖的完整性
-go.sum
+# go.sum 必须提交，用于锁定依赖版本和校验和
 
 # 依赖包
 vendor/
